@@ -17,6 +17,8 @@ router.get('/', (req, res) => res.send("hello world"));
 router.post('/register', userController.registerUser);
 //login route
 router.post('/login', userController.loginUser);
+//login role get
+router.get('/login/getRole',verifyUser.verifyUser, userController.getRole);
 //forget pass otp 
 router.post('/sendOtp/:email', userController.sendOtp);
 //verifyotp
@@ -34,6 +36,7 @@ router.get('/leave/getUserLeaveCounts/:id', verifyUser.verifyUser, leaveControll
 
 //apply leave by user
 router.post('/leave/createLeave', verifyUser.verifyUser, leaveController.createLeave);
+
 
 //employee ///
 
