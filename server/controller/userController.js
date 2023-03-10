@@ -7,7 +7,7 @@ const {ObjectId} = require('mongodb');
 const sendMail = require('../controller/mailer');
  
 const registerUser = async (req, res) => {
-    const {username, email, password, cpassword, mobile, roles } = req.body;
+    const {username, email, password, cpassword, mobile, position} = req.body;
     // res.json({message : req.body}); //for thunderclient response
     //message ->db entity
     //req.body ->userfilled property
@@ -29,7 +29,7 @@ const registerUser = async (req, res) => {
             return res.json({error : "change the email ID as its can't be used"});
         }
         else{
-            const employee = new employees({username, email, password, mobile, roles });
+            const employee = new employees({username, email, password, mobile, position });
             //pass hashing
             await employee.save();  
             res.status(201).json({message : 'user registered successfully'});
@@ -43,8 +43,8 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
     try{
         let token;
-        const {email, password} = req.body;
-        if( !email || !password){
+        const {email, password, roles} = req.body;
+        if( !email || !password || !roles){
             return res.status(400).json({error : "Plz fill the data"});
         }
 

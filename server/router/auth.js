@@ -8,10 +8,31 @@ const leaveController = require('../controller/leaveController');
 // const cookieParser = require("cookie-parser");
 // router.use(cookieParser());
 
+router.get('/', (req, res) => res.send("hello world"));
+
+///first page :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
 //register route
 router.post('/register', userController.registerUser);
 //login route
 router.post('/login', userController.loginUser);
+//forget pass otp 
+router.post('/sendOtp/:email', userController.sendOtp);
+//verifyotp
+router.get('/verifyOtp/:email/:otp', userController.verifyPassOtp);
+//reset pass
+router.post('/resetPassword/:email/:otp', userController.resetPassword);
+
+
+//after employee-logged in ::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+//all leaves per user
+router.get('/leave/getUserLeaves/:id',verifyUser.verifyUser, leaveController.getUserLeaves);
+//all leaves count -pending, approved, accepted, rejected per user
+router.get('/leave/getUserLeaveCounts/:id', verifyUser.verifyUser, leaveController.getUserLeaveCounts);
+
+//apply leave by user
+router.post('/leave/createLeave', verifyUser.verifyUser, leaveController.createLeave);
 
 //employee ///
 
@@ -28,12 +49,6 @@ router.delete('/user/deleteUser/:id',verifyUser.verifyUser, verifyUser.verifyAdm
 // //delete user by admin
 // router.delete('/user/deleteUser/:id', verifyUser.verifyAdmin, userController.deleteUser);
 
-//forget pass otp 
-router.post('/sendOtp/:email', userController.sendOtp);
-//verifyotp
-router.get('/verifyOtp/:email/:otp', userController.verifyPassOtp);
-//reset pass
-router.post('/resetPassword/:email/:otp', userController.resetPassword);
 
 
 //leaveType///////

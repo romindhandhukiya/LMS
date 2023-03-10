@@ -31,8 +31,6 @@ import Settings from './Employees/Settings';
 import TrackLeave from './Employees/TrackLeave';
 import PendingLeave from './Employees/PendingLeave';
 
-
-
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
