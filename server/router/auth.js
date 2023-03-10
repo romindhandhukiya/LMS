@@ -5,6 +5,7 @@ const verifyUser = require('../middleware/verifyUser');
 const userController = require('../controller/userController');
 const leaveTypeController = require('../controller/leaveTypeController');
 const leaveController = require('../controller/leaveController');
+// const verifyLogin = require('../middleware/verifyLogin');
 // const cookieParser = require("cookie-parser");
 // router.use(cookieParser());
 

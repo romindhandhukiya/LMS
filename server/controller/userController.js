@@ -5,6 +5,8 @@ const bcrypt = require('bcryptjs');
 const otpGenerator = require('otp-generator');
 const {ObjectId} = require('mongodb');
 const sendMail = require('../controller/mailer');
+const { use } = require('../router/auth');
+const jwt = require('jsonwebtoken');
  
 const registerUser = async (req, res) => {
     const {username, email, password, cpassword, mobile, position} = req.body;
@@ -43,8 +45,8 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
     try{
         let token;
-        const {email, password, roles} = req.body;
-        if( !email || !password || !roles){
+        const {email, password} = req.body;
+        if( !email || !password ){
             return res.status(400).json({error : "Plz fill the data"});
         }
 
@@ -66,7 +68,17 @@ const loginUser = async (req, res) => {
         }
         else{
             // req.user = employeeLogin.toJSON();
-            res.json({message : "User login successfully", token});
+            // res.json({message : "User login successfully", token});
+            const decoded = await jwt.verify(token, process.env.SECRET_KEY);
+            const user = await employees.findById({_id : decoded._id, "tokens.token": token});
+    
+            if(!user){
+                throw new Error("User not found !!");
+            }
+            req.roles = user.roles;
+
+            console.log(user.roles);
+            res.json(user.roles);
         }
 
     }catch(err){
